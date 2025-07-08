@@ -42,7 +42,7 @@ if not os.path.exists(file_to_save):
 else:
     print('File already exists. Loading data from CSV')
     df = pd.read_csv(file_to_save)
-
+#testt
     df = df.sort_values("Date")
     # print(df.head(10))
 
@@ -52,7 +52,8 @@ else:
     plt.xticks(range(0,df.shape[0],500),df['Date'].loc[::500],rotation=45)
     plt.xlabel('Date',fontsize=18)
     plt.ylabel('Mid Price',fontsize=18)
-    # plt.show()
+    plt.show()
+
 
     # Split Data in Training and Test Set
     high_prices = df.loc[:,'High'].values
