@@ -1,5 +1,5 @@
 
-import numpy as py
+import numpy as np
 import pandas as pd
 from textblob.classifiers import NaiveBayesClassifier
 ### Download Language Processor ###
@@ -8,9 +8,13 @@ from textblob.classifiers import NaiveBayesClassifier
 # nltk.download('punkt')
 # nltk.download('wordnet')
 # nltk.download('omw-1.4')
+data = pd.read_csv('Naive_Bayes/all-data.csv', encoding="ISO-8859-1" )
+data = data[data.columns[::-1]]
 
-
-training_data = [
+training_data = data[0:2500]
+data_size = len(data)
+test_data = data[2500:data_size]
+update_data = [
     ("""The companies are now eligible to receive Other Transaction (OT) awards to provide commercially 
      available dual use microreactor technology at various DOD installations""","pos"),
     # ("Selected companies for the ANPI program include", "pos"),
@@ -21,6 +25,11 @@ training_data = [
       intended to streamline a significant portion of DOD's legacy human resources program""", 'neg')
 ]
 
-clf = NaiveBayesClassifier(training_data)
-print(clf.classify("cut is a development"))
+clf = NaiveBayesClassifier(np.array(training_data))
+positive_test = clf.classify("awards to provide commercially available dual use microreactor technology")
+negative_test = clf.classify("The top contract being cut is a software development program")
+accuracy = clf.accuracy(np.array(test_data))
+print(f"This should be positive: {positive_test}")
+print(f"This should be negative: {negative_test}")
+print(f"This is the accuracy: {accuracy}")
 
