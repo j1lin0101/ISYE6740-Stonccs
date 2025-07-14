@@ -1,3 +1,26 @@
 
 import numpy as py
+import pandas as pd
+from textblob.classifiers import NaiveBayesClassifier
+### Download Language Processor ###
+# import nltk
+# nltk.download('punkt_tab')
+# nltk.download('punkt')
+# nltk.download('wordnet')
+# nltk.download('omw-1.4')
+
+
+training_data = [
+    ("""The companies are now eligible to receive Other Transaction (OT) awards to provide commercially 
+     available dual use microreactor technology at various DOD installations""","pos"),
+    # ("Selected companies for the ANPI program include", "pos"),
+    # ('Microreactors on installations are a critical first step in delivering energy dominance to the Force', 'pos'),
+    # ("""Tapping into the commercial sector’s rapid advancements in this area is critical 
+    #  due to the significant private investment in this space over the last few years""", 'pos'),
+     ("""The top contract being cut is a software development program for the Defense Civilian Human Resources Management System, which was 
+      intended to streamline a significant portion of DOD's legacy human resources program""", 'neg')
+]
+
+clf = NaiveBayesClassifier(training_data)
+print(clf.classify("cut is a development"))
 
