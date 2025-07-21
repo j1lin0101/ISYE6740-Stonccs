@@ -10,22 +10,30 @@ from textblob.classifiers import NaiveBayesClassifier
 # nltk.download('omw-1.4')
 data = pd.read_csv('Naive_Bayes/all-data.csv', encoding="ISO-8859-1" )
 data = data[data.columns[::-1]]
-
-training_data = data[0:2500]
-data_size = len(data)
-test_data = data[2500:data_size]
 update_data = [
-    ("""The companies are now eligible to receive Other Transaction (OT) awards to provide commercially 
-     available dual use microreactor technology at various DOD installations""","pos"),
-    # ("Selected companies for the ANPI program include", "pos"),
-    # ('Microreactors on installations are a critical first step in delivering energy dominance to the Force', 'pos'),
-    # ("""Tapping into the commercial sector’s rapid advancements in this area is critical 
-    #  due to the significant private investment in this space over the last few years""", 'pos'),
-     ("""The top contract being cut is a software development program for the Defense Civilian Human Resources Management System, which was 
-      intended to streamline a significant portion of DOD's legacy human resources program""", 'neg')
+    ["""The companies are now eligible to receive Other Transaction (OT) awards to provide commercially 
+     available dual use microreactor technology at various DOD installations""","positive"],
+    ["Selected companies for the ANPI program include", "positive"],
+    ['Microreactors on installations are a critical first step in delivering energy dominance to the Force', 'positive'],
+    ["""Tapping into the commercial sector’s rapid advancements in this area is critical 
+     due to the significant private investment in this space over the last few years""", 'positive'],
+    ["""The top contract being cut is a software development program for the Defense Civilian Human Resources Management System, which was 
+      intended to streamline a significant portion of DOD's legacy human resources program""", 'negative'],
+    ["""Pursuant to my commitment to strategically rebuild our military, restore accountability to
+     the Department of Defense (DoD ), cut wasteful spending, and implement the President's orders,
+     effective immediately I direct the termination of the following programs, contracts, and grants: """, 'negative'],
+     ["that are not aligned with DoD priorities", 'negative']
 ]
+data_size = len(data)
+
+training_data = data[0:3000] 
+training_data = pd.concat([training_data,pd.DataFrame(update_data, columns = data.columns)], ignore_index=True)
+
+test_data = data[3000:data_size]
+
 
 clf = NaiveBayesClassifier(np.array(training_data))
+# clf.update(update_data)
 positive_test = clf.classify("awards to provide commercially available dual use microreactor technology")
 negative_test = clf.classify("The top contract being cut is a software development program")
 accuracy = clf.accuracy(np.array(test_data))
