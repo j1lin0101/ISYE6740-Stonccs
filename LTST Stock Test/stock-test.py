@@ -195,7 +195,7 @@ batch_size = min(500, train_size // 20)  # Adaptive batch size
 num_nodes = [200, 200, 150]  # Number of hidden nodes in each layer
 dropout = 0.2  # dropout amount
 learning_rate = 0.001
-epochs = 30
+epochs = 15
 
 print(f"Using batch size: {batch_size}, sequence length: {num_unrollings}")
 
